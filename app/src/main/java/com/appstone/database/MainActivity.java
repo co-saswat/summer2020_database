@@ -2,10 +2,14 @@ package com.appstone.database;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         mEtReturnDate = findViewById(R.id.et_return_date);
 
         mBtnEnterData = findViewById(R.id.btn_enter_data);
+
+        Button mBtnViewData = findViewById(R.id.btn_view_data);
 
         dbHelper = new DatabaseHelper(this);
 
@@ -72,5 +78,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        mBtnViewData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, StudentListActivity.class));
+            }
+        });
     }
 }

@@ -2,10 +2,13 @@ package com.appstone.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -54,5 +57,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COL_RETURN_DATE, student.returnDate);
 
         database.insert(TABLE_NAME, null, cv);
+    }
+
+    public ArrayList<Student> getDataFromDatabase(SQLiteDatabase database) {
+        ArrayList<Student> studentList = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Student data = new Student();
+                data.regNo = cursor.getInt(cursor.getColumnIndex(COL_REG_NO));
+                data.studentName = cursor.getString(cursor.getColumnIndex(COL_STUDENT_NAME));
+                data.studentBranch = cursor.getString(cursor.getColumnIndex(COL_STUDENT_BRANCH));
+                data.issueDate = cursor.getString(cursor.getColumnIndex(COL_ISSUE_DATE));
+                data.returnDate = cursor.getString(cursor.getColumnIndex(COL_RETURN_DATE));
+                data.bookborrowed = cursor.getString(cursor.getColumnIndex(COL_BOOK_BORROWED));
+
+                studentList.add(data);
+
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+
+        return studentList;
     }
 }
